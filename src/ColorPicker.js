@@ -1,36 +1,34 @@
 import React, { useState } from 'react';
 
 const ColorPicker = ({ colors }) => {
-  const [showColorList, setShowColorList] = useState(false);
-  const [selectedColor, setSelectedColor] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedColor, setSelectedColor] = useState('');
 
   const handleButtonClick = () => {
-    setShowColorList(!showColorList);
+    setIsOpen(!isOpen);
   };
 
   const handleColorClick = (color) => {
     setSelectedColor(color);
-    setShowColorList(false);
+    setIsOpen(false);
   };
 
   return (
-    <div>
-      <button onClick={handleButtonClick}>Pick a color</button>
-      {showColorList && (
-        <ul>
+    <div className="color-picker">
+      <button onClick={handleButtonClick}>
+        {selectedColor ? `Selected Color: ${selectedColor}` : 'Pick a color'}
+      </button>
+      {isOpen && (
+        <ul className="color-list">
           {colors.map((color, index) => (
-            <li
-              key={index}
-              style={{ backgroundColor: color }}
-              onClick={() => handleColorClick(color)}
-            />
+            <li key={index} onClick={() => handleColorClick(color)}>
+              <div
+                className="color-square"
+                style={{ backgroundColor: color }}
+              ></div>
+            </li>
           ))}
         </ul>
-      )}
-      {selectedColor && (
-        <div>
-          Selected Color: <span style={{ color: selectedColor }}>{selectedColor}</span>
-        </div>
       )}
     </div>
   );
